@@ -1,0 +1,135 @@
+{
+  "project_info": {
+    "project_number": "951075362845",
+    "project_id": "workshopapp-76bdd",
+    "storage_bucket": "workshopapp-76bdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951075362845:android:9bf3daf7b7af02f8c98ef4",
+        "android_client_info": {
+          "package_name": "com.example.workshop_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951075362845-oidf0471arsm9nse1u0ik16jo52cb8af.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.workshop_app",
+            "certificate_hash": "f7d56b3e83ea2a4b1cad1bbef2bbb7b23387d2e0"
+          }
+        },
+        {
+          "client_id": "951075362845-scku3msk8j2fpls33k3fk6l75u4t32pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1J8Na26KQ3NCzLn1N4EDlt7bMRbYePQ"
+        },
+        {
+          "current_key": "AIzaSyCoP0jx8YMJIE5MFjJ0rNBzEP8PDKRtH8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951075362845-im1tdvrp4j6hpr52r21sr5lts2i9lb0k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951075362845-2hnuod59mc977h1n1vpnrcvtupbviib2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sariy312024.sariy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951075362845:android:a9a2e8d7fa782f71c98ef4",
+        "android_client_info": {
+          "package_name": "com.gaalsayir132025.sayir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951075362845-scku3msk8j2fpls33k3fk6l75u4t32pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1J8Na26KQ3NCzLn1N4EDlt7bMRbYePQ"
+        },
+        {
+          "current_key": "AIzaSyCoP0jx8YMJIE5MFjJ0rNBzEP8PDKRtH8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951075362845-im1tdvrp4j6hpr52r21sr5lts2i9lb0k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951075362845-2hnuod59mc977h1n1vpnrcvtupbviib2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sariy312024.sariy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:951075362845:android:84b75deedb4bd923c98ef4",
+        "android_client_info": {
+          "package_name": "com.sariy312024.sariy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "951075362845-scku3msk8j2fpls33k3fk6l75u4t32pt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-1J8Na26KQ3NCzLn1N4EDlt7bMRbYePQ"
+        },
+        {
+          "current_key": "AIzaSyCoP0jx8YMJIE5MFjJ0rNBzEP8PDKRtH8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "951075362845-im1tdvrp4j6hpr52r21sr5lts2i9lb0k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "951075362845-2hnuod59mc977h1n1vpnrcvtupbviib2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sariy312024.sariy"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
