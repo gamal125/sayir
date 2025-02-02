@@ -8,6 +8,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:sayir/main.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
@@ -33,7 +34,7 @@ class CustomerProfileScreen extends StatelessWidget {
             CacheHelper.removeData(key: 'uId',);
             CacheHelper.removeData(key: 'name',);
 
-            navigateAndFinish(context, LoginScreen());
+            navigateAndFinish(context, MyHomePage(title: ''));
           }
 
         },
@@ -200,9 +201,7 @@ class CustomerProfileScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
 
-                              ConditionalBuilder(
-                                  condition: state is! LogoutLoadingState,
-                                  builder: (context)=>
+
 
                                       Container(
                                           padding: const EdgeInsets.all(2),
@@ -211,39 +210,14 @@ class CustomerProfileScreen extends StatelessWidget {
                                           decoration: BoxDecoration(
                                               border: Border.all(color: Colors.white,width: 1),
                                               borderRadius: BorderRadius.circular(10)
-                                              ,color: Colors.red
+                                              ,color: Colors.green
                                           ),
                                           child:TextButton(onPressed: (){
 
-                                            AwesomeDialog(
-                                              body:    const Padding(
-                                                padding: EdgeInsets.all(18.0),
-                                                child: Column(
-                                                  children: [
-                                                    Text('هل تريد حقا تسجيل الخروج'),
-                                                    SizedBox(height: 20,),
+                                        navigateTo(context, LoginScreen());
 
-                                                  ],
-                                                ),
-                                              ),
-                                              context: context,
-                                              dialogType: DialogType.warning,
-                                              animType: AnimType.rightSlide,
+                                          },child: const Text('تسجل الدخول',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.white),))) ,
 
-                                              btnCancelOnPress: () {},
-                                              btnCancelText: 'لا',
-                                              btnOkText: 'نعم',
-                                              btnOkOnPress: () {
-                                                AppCubit.get(context).signout();
-                                              },
-                                            ).show();
-
-                                          },child: const Text('LogOut',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.white),))) , fallback: (context)=>  Center(
-                                  child: LoadingAnimationWidget.inkDrop(
-                                    color: Colors.green.withOpacity(.8),
-                                    size: screenSiz.width / 12,
-                                  ))
-                              ) ,
                               Padding(
                                 padding: const EdgeInsets.only(left: 8.0),
                                 child: Container(   width: 40,height: 40,

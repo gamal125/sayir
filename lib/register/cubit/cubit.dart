@@ -122,7 +122,8 @@ createUser(
         .get()
         .then((value) {
       print(value.data());
-      userdata = UserModel.fromjson(value.data()!);
+      value.data()!=null?
+      userdata = UserModel.fromjson(value.data()!) :  UserModel(name:'' ,phone: '',uId:'' ,email:'' );
       print(userdata!.email!);
     });
   }

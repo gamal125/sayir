@@ -57,180 +57,213 @@ class RegisterScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           backgroundColor: HexColor("#118C8C"),
-          body: SafeArea(
-            child: GestureDetector(
-              onTap: (){
-                FocusManager.instance.primaryFocus?.unfocus();
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(top: 50.0),
-                child: SingleChildScrollView(
-                  child: Form(
-                    key: formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+          body: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < 600) {
+                  return Container(
+                    color: Colors.white,
+                    child: Center(
+                      child: Text(
+                        "Increase window size (min 600)",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                } else {
 
+                  return  GestureDetector(
+                    onTap: (){
+                      FocusManager.instance.primaryFocus?.unfocus();
+                    },
+                    child: Padding(
+                      padding:  EdgeInsets.only(top: height(context)*0.25),
+                      child: SizedBox(
 
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                        child:  Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text('إنشاء حساب',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold,fontFamily: 'Dubai',),),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 15,left: 15,bottom:10,top: 50),
-                          child: Column(children: [
-
-                            defaultTextFormField(
-                              controller: emailController,
-                              prefix: Icons.email,
-                              keyboardType: TextInputType.emailAddress,
-                              validate: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'البريد الالكتروني';
-                                }
-                                return null;
-                              },
-                              label: 'البريد الالكتروني',
-                              hint: 'البريد الالكتروني',
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultTextFormField(
-                              controller: nameController,
-                              keyboardType: TextInputType.text,
-                              prefix: Icons.edit,
-                              validate: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'الاسم الكامل';
-                                }
-                                return null;
-                              },
-                              label: 'الاسم الكامل',
-                              hint: 'الاسم الكامل',
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultTextFormField(
-                              controller: phoneController,
-                              prefix: Icons.phone,
-                              keyboardType: TextInputType.phone,
-                              validate: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'رقم الهاتف';
-                                }
-                                return null;
-                              },
-                              label: 'رقم الهاتف',
-                              hint: 'رقم الهاتف',
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultTextFormField(
-                              controller: passwordController,
-
-                              keyboardType: TextInputType.visiblePassword,
-                              prefix: Icons.key,
-                              suffix: RegisterCubit.get(context).suffix,
-                              isPassword: RegisterCubit.get(context).isPassword,
-                              suffixPressed: () {
-                                RegisterCubit.get(context).changePassword();
-                              },
-                              validate: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'كلمة المرور';
-                                }
-                                return null;
-                              },
-                              label: 'كلمة المرور',
-                              hint: 'كلمة المرور',
-                            ),
-
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            defaultTextFormField(
-                              controller: passwordController2,
-                              keyboardType: TextInputType.visiblePassword,
-                              prefix: Icons.key,
-                              suffix: RegisterCubit.get(context).suffix,
-                              isPassword: RegisterCubit.get(context).isPassword,
-                              suffixPressed: () {
-                                RegisterCubit.get(context).changePassword();
-                              },
-                              validate: (String? value) {
-                                if (value!.isEmpty) {
-                                  return 'تاكيد كلمة المرور';
-                                }
-                                return null;
-                              },
-                              label: 'تاكيد كلمة المرور',
-                              hint: 'تاكيد كلمة المرور',
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ConditionalBuilder(
-                              condition: state is! CreateUserInitialState,
-                              builder: (context) => Center(
-                                child: defaultMaterialButton(
-                                   function: () {
-                                    if (formKey.currentState!.validate()) {
-                                      if(passwordController.text!=passwordController2.text){
-                                        showToast(text:'كلمة المرور غير متطابقه' , state: ToastStates.error);
-                                      }else{
-                                        if(phoneController.text.length<10){
-                                          showToast(text:'رقم الهاتف غير صحيح' , state: ToastStates.error);
-                                        }else{
-                                          RegisterCubit.get(context).userRegister(
-                                            email: emailController.text,
-                                            password: passwordController.text,
-                                            name: nameController.text,
-                                            phone: phoneController.text,
-                                          );
-                                        }
-
-                                      }
-
-                                    }
-                                   },
-                                  text: 'تسجيل دخول',
-                                  radius: 20,
-                                ),
-                              ),
-                              fallback: (context) =>
-                                  const Center(child: CircularProgressIndicator()),
-                            ),
-
-                            Row(mainAxisAlignment: MainAxisAlignment.center,
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: formKey,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
 
-                                TextButton(onPressed: () { navigateTo(context, LoginScreen()); },
-                                  child:const Text(' تسجيل دخول',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,color: Colors.white),),
+
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child:  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text('إنشاء حساب',style: TextStyle(color: Colors.white,fontSize: 30,fontWeight: FontWeight.bold,fontFamily: 'Dubai',),),
+                                    ],
+                                  ),
                                 ),
-                                const Text('هل تمتلك حساب مسبقا؟',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,color: Colors.white70),),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15,left: 15,bottom:10,top: 50),
+                                  child: SizedBox(
+                                    width: width(context) / 3,
+                                    child: Column(children: [
+
+                                      defaultTextFormField(
+                                        controller: emailController,
+                                        prefix: Icons.email,
+                                        keyboardType: TextInputType.emailAddress,
+                                        validate: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'البريد الالكتروني';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'البريد الالكتروني',
+                                        hint: 'البريد الالكتروني',
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      defaultTextFormField(
+                                        controller: nameController,
+                                        keyboardType: TextInputType.text,
+                                        prefix: Icons.edit,
+                                        validate: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'الاسم الكامل';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'الاسم الكامل',
+                                        hint: 'الاسم الكامل',
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      defaultTextFormField(
+                                        controller: phoneController,
+                                        prefix: Icons.phone,
+                                        keyboardType: TextInputType.phone,
+                                        validate: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'رقم الهاتف';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'رقم الهاتف',
+                                        hint: 'رقم الهاتف',
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      defaultTextFormField(
+                                        controller: passwordController,
+
+                                        keyboardType: TextInputType.visiblePassword,
+                                        prefix: Icons.key,
+                                        suffix: RegisterCubit.get(context).suffix,
+                                        isPassword: RegisterCubit.get(context).isPassword,
+                                        suffixPressed: () {
+                                          RegisterCubit.get(context).changePassword();
+                                        },
+                                        validate: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'كلمة المرور';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'كلمة المرور',
+                                        hint: 'كلمة المرور',
+                                      ),
+
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      defaultTextFormField(
+                                        controller: passwordController2,
+                                        keyboardType: TextInputType.visiblePassword,
+                                        prefix: Icons.key,
+                                        suffix: RegisterCubit.get(context).suffix,
+                                        isPassword: RegisterCubit.get(context).isPassword,
+                                        suffixPressed: () {
+                                          RegisterCubit.get(context).changePassword();
+                                        },
+                                        validate: (String? value) {
+                                          if (value!.isEmpty) {
+                                            return 'تاكيد كلمة المرور';
+                                          }
+                                          return null;
+                                        },
+                                        label: 'تاكيد كلمة المرور',
+                                        hint: 'تاكيد كلمة المرور',
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      ConditionalBuilder(
+                                        condition: state is! CreateUserInitialState,
+                                        builder: (context) => Center(
+                                          child: defaultMaterialButton(
+                                            function: () {
+                                              if (formKey.currentState!.validate()) {
+                                                if(passwordController.text!=passwordController2.text){
+                                                  showToast(text:'كلمة المرور غير متطابقه' , state: ToastStates.error);
+                                                }else{
+                                                  if(phoneController.text.length<10){
+                                                    showToast(text:'رقم الهاتف غير صحيح' , state: ToastStates.error);
+                                                  }else{
+                                                    RegisterCubit.get(context).userRegister(
+                                                      email: emailController.text,
+                                                      password: passwordController.text,
+                                                      name: nameController.text,
+                                                      phone: phoneController.text,
+                                                    );
+                                                  }
+
+                                                }
+
+                                              }
+                                            },
+                                            text: 'تسجيل دخول',
+                                            radius: 20,
+                                          ),
+                                        ),
+                                        fallback: (context) =>
+                                        const Center(child: CircularProgressIndicator()),
+                                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      SizedBox(
+                                        width: width(context) / 3,
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+
+                                            TextButton(onPressed: () { navigateTo(context, LoginScreen()); },
+                                              child:const Text(' تسجيل دخول',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,color: Colors.white),),
+                                            ),
+                                            Expanded(
+                                              child: const Text('هل تمتلك حساب مسبقا؟',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14,color: Colors.white70),
+                                              textAlign: TextAlign.right,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+
+
+                                    ]),
+                                  ),
+                                ),
+
+
                               ],
                             ),
-
-
-                          ]),
+                          ),
                         ),
-
-
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+                  );
+                }
+              }
+
+          )
         );
       },
     );

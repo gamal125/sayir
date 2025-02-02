@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +10,12 @@ import 'package:sayir/models/PostModel.dart';
 
 import '../Cubit/AppCubit.dart';
 import '../Cubit/AppStates.dart';
+import '../shared/local/cache_helper.dart';
 
 class DetailsScreen extends StatelessWidget {
-   const DetailsScreen({super.key,required this.post,required this.ud});
+   const DetailsScreen({super.key,required this.post,});
   final PostModel post;
-  final String ud;
+
   @override
   Widget build(BuildContext context) {
     List<String> images=[];
@@ -42,154 +44,181 @@ class DetailsScreen extends StatelessWidget {
             color: Colors.white,
             child: Stack(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height*0.4,
-                  width: double.infinity,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: images.length,
-                      itemBuilder: (context,index) {
+                ScrollConfiguration(
+                  behavior: ScrollBehavior().copyWith(scrollbars: true, dragDevices: {
+                    PointerDeviceKind.mouse,
+                    PointerDeviceKind.touch,
+                  }),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: List.generate(images.length, (index) {
                         return Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height*0.35,
-                            decoration:BoxDecoration(image: DecorationImage(image: NetworkImage(images[index],),fit: BoxFit.fill)
-                            ));
-                      }
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(images[index]),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        );
+                      }),
+                    ),
                   ),
                 ),
                 Padding(
-                  padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.35,),
+                  padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height*0.4,),
                   child: Container(
+                    height: height(context)*0.6,
                     padding:  EdgeInsets.symmetric(horizontal: 25),
                     decoration: BoxDecoration(borderRadius: BorderRadius.only(topLeft: Radius.circular(50),topRight: Radius.circular(50),), color: Colors.white,),
 
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        // Image
+                    child: SingleChildScrollView(
+                      child: Column(
 
-                        const SizedBox(height: 16),
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          // Image
 
-                        // Title, Price, and Location
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
+                          const SizedBox(height: 16),
 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  post.price!,
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.orange,
+                          // Title, Price, and Location
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    post.price!,
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  post.name!,
-                                  style: const TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
+                                  Text(
+                                    post.name!,
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    textAlign: TextAlign.start,
                                   ),
-                                  textAlign: TextAlign.start,
-                                ),
 
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children:  [
-
-                                Text(
-                                  post.location!,
-                                  style: TextStyle(fontSize: 16, color: Colors.black54),
-
-                                ),
-
-                                SizedBox(width: 4),
-                                Icon(Icons.location_on, color: Colors.red, size: 16),
-                              ],
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Features
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            FeatureIcon(
-                              value:post.nRooms!,
-                              icon: Icons.hotel_sharp,
-                              label: 'عدد الغرف',
-                            ),
-                            FeatureIcon(
-                              value:post.age!,
-                              icon: Icons.access_time,
-                              label: 'عمر العقار',
-                            ),
-                            FeatureIcon(
-                              value:post.area!,
-                              icon: Icons.area_chart,
-                              label: 'المساحة',
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Description Section
-                        const Text(
-                          'وصف',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          post.description!,
-                          style: TextStyle(fontSize: 14, color: Colors.black87, height: 1.5),
-                        ),
-
-                        const SizedBox(height: 16),
-        Spacer(),
-                        if (ud!="5wJWxLCo1VaQEwTO6ftLWqYcJsI2") ConditionalBuilder(
-                          condition: state is !CreateOrderLoadingState,
-                          builder: (context) {
-                            return Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: InkWell(
-                                onTap: (){
-                             AppCubit.get(context).createOrder(
-                                 area: post.area!,
-                                 location: post.location!,
-                                 type: post.type!,
-                                 price: post.price!,
-                                 name: post.name!, date:DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now()));
-                                },
-                                child: Container(
-
-                                  width:MediaQuery.of(context).size.width*0.8,height: 65, decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                                  color:  HexColor("#118C8C"),
-
-                                ),
-                                child: Center(child: Text('!إحجز الان و إدفع لاحقاّ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),),
+                                ],
                               ),
-                            );
-                          }, fallback: (BuildContext context) { return Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Center(child: CircularProgressIndicator()),
-                          ); },
-                        ) else SizedBox()
-                        // Photo Gallery Section
+                              const SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children:  [
 
-                      ],
+                                  Text(
+                                    post.location!,
+                                    style: TextStyle(fontSize: 16, color: Colors.black54),
+
+                                  ),
+
+                                  SizedBox(width: 4),
+                                  Icon(Icons.location_on, color: Colors.red, size: 16),
+                                ],
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Features
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FeatureIcon(
+                                value:post.nRooms!,
+                                icon: Icons.hotel_sharp,
+                                label: 'عدد الغرف',
+                              ),
+                              FeatureIcon(
+                                value:post.age!,
+                                icon: Icons.access_time,
+                                label: 'عمر العقار',
+                              ),
+                              FeatureIcon(
+                                value:post.area!,
+                                icon: Icons.area_chart,
+                                label: 'المساحة',
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+
+                          // Description Section
+                          const Text(
+                            'وصف',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                      Container(
+                          width: width(context),
+                          height: height(context)/4,  // Specify a fixed height or let it grow
+                          color: Colors.white38,
+                          child: SingleChildScrollView(
+                            child: Text(
+                              post.description!,
+                              style: TextStyle(fontSize: 14, color: Colors.black87, height: 1.5),
+                              textAlign: TextAlign.right,
+                            ),
+                          ),),
+
+
+                          const SizedBox(height: 16),
+
+                          if (CacheHelper.getData(key: 'uId')!="5wJWxLCo1VaQEwTO6ftLWqYcJsI2") Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ConditionalBuilder(
+                                condition: state is !CreateOrderLoadingState,
+                                builder: (context) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: InkWell(
+                                      onTap: (){
+                                        CacheHelper.getData(key: 'uId')==null||CacheHelper.getData(key: 'uId')==''||AppCubit.get(context).userdata==null?
+                                            showToast(text: 'من فضلك سجل دخول اولا', state: ToastStates.warning):
+                                   AppCubit.get(context).createOrder(
+                                       area: post.area!,
+                                       location: post.location!,
+                                       type: post.type!,
+                                       price: post.price!,
+                                       name: post.name!, date:DateFormat('yyyy-MM-dd – kk:mm').format(DateTime.now()));
+                                      },
+                                      child: Container(
+
+                                        width:width(context)*0.4,height: height(context)*0.07, decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                                        color:  HexColor("#118C8C"),
+
+                                      ),
+                                      child: Center(child: Text('!إحجز الان و إدفع لاحقاّ',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)),),
+                                    ),
+                                  );
+                                }, fallback: (BuildContext context) { return Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Center(child: CircularProgressIndicator()),
+                                ); },
+                              ),
+                            ],
+                          ) else SizedBox(),
+                          // Photo Gallery Section
+
+                        ],
+                      ),
                     ),
                   ),
                 ),
